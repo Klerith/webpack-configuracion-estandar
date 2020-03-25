@@ -25,13 +25,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.html$/,
-                use: [
-                    {
-                        loader: 'html-loader',
-                        options: { minimize: false }
-                    }
-                ]
+                test: /\.html$/i,
+                loader: 'html-loader',
+                options: {
+                    attributes: false,
+                    minimize: false
+                },
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
