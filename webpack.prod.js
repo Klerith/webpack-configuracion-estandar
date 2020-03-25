@@ -4,6 +4,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MinifyPlugin            = require('babel-minify-webpack-plugin');
 const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
 
+const CopyPlugin              = require('copy-webpack-plugin');
+
 module.exports = {
     mode: 'production',
     optimization: {
@@ -37,13 +39,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.html$/,
-                use: [
-                    {
-                        loader: 'html-loader',
-                        options: { minimize: false }
-                    }
-                ]
+                test: /\.html$/i,
+                loader: 'html-loader',
+                options: {
+                    attributes: false,
+                    minimize: false
+                },
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -51,6 +52,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
+                            emitFile: true,
                             esModule: false,
                             name: 'assets/[name].[ext]'
                         }
@@ -70,6 +72,10 @@ module.exports = {
         }),
         new MinifyPlugin(),
         new CleanWebpackPlugin(),
+
+        new CopyPlugin([
+            { from: 'src/assets', to: 'assets/' },
+        ]),
     ]
 
 }
